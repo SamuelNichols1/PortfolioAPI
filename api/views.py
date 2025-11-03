@@ -73,12 +73,11 @@ def chat_with_openai(request):
         # Make the API call to OpenAI
         # This sends the user's prompt and gets back a response
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",  # AI model to use (can change to gpt-4, etc.)
+            model="gpt-5-nano",  # AI model to use (can change to gpt-4o, gpt-3.5-turbo, etc.)
             messages=[
                 {"role": "user", "content": prompt}  # User's message
             ],
-            temperature=0.7,      # Controls randomness (0=focused, 1=creative)
-            max_tokens=1000       # Maximum length of response
+            max_completion_tokens=1000       # Maximum length of response
         )
         
         # Extract the text content from OpenAI's response object
