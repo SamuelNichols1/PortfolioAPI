@@ -12,7 +12,7 @@ Admins can:
 This configuration makes the admin panel more user-friendly and powerful.
 """
 from django.contrib import admin
-from .models import ChatHistory
+from .models import ChatHistory, PortfolioData
 
 
 @admin.register(ChatHistory)
@@ -55,3 +55,33 @@ class ChatHistoryAdmin(admin.ModelAdmin):
         """
         return obj.response[:50] + '...' if len(obj.response) > 50 else obj.response
     response_preview.short_description = 'Response'  # Column header name
+
+
+@admin.register(PortfolioData)
+class PortfolioDataAdmin(admin.ModelAdmin):
+    """
+    Admin configuration for PortfolioData model
+    
+    Manage your portfolio information and embeddings for RAG.
+    View, edit, and organize different categories of portfolio data.
+    """
+    
+    # Fields to display in list view
+    list_display = ('id', 'category', 'content_preview', 'created_at')
+    
+    # Add filters for easy navigation
+    list_filter = ('category', 'created_at')
+    
+    # Enable search on content
+    search_fields = ('content',)
+    
+    # Make embedding read-only (it's auto-generated)
+    readonly_fields = ('created_at',)
+    
+    # Order by category and date
+    ordering = ('category', '-created_at')
+
+    def content_preview(self, obj):
+        """Display a shortened version of the content"""
+        return obj.content[:80] + '...' if len(obj.content) > 80 else obj.content
+    content_preview.short_description = 'Content Preview'

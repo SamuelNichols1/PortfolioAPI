@@ -219,8 +219,8 @@ REST_FRAMEWORK = {
 # Essential when your frontend (React, Vue, etc.) runs on a different port/domain
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",      # Common React development server
-    "http://127.0.0.1:3000",      # Same as above but with IP
+    "http://localhost:5173",      # Common React development server
+    "http://127.0.0.1:5173",      # Same as above but with IP
     # Add your frontend URLs here
     # "https://yourfrontend.com",
 ]
