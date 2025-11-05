@@ -47,7 +47,7 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 # ALLOWED_HOSTS: List of domain names this Django site can serve
 # In production, set this to your actual domain(s)
 # Example: 'mysite.com,www.mysite.com'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,host.docker.internal').split(',')
 
 # ==============================================================================
 # THIRD-PARTY API KEYS
@@ -139,7 +139,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'HOST': os.getenv('DB_HOST', 'host.docker.internal'),
         'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
@@ -219,11 +219,19 @@ REST_FRAMEWORK = {
 # Essential when your frontend (React, Vue, etc.) runs on a different port/domain
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",      # Common React development server
-    "http://127.0.0.1:5173",      # Same as above but with IP
+    "http://localhost:5173",           # Vite dev server
+    "http://127.0.0.1:5173",          # Vite dev server (IP)
+    "http://localhost",                # Frontend on port 80
+    "http://localhost:80",             # Frontend on port 80 (explicit)
+    "http://127.0.0.1",               # Frontend on port 80 (IP)
+    "http://127.0.0.1:80",            # Frontend on port 80 (IP, explicit)
+    "http://host.docker.internal:80", # Docker internal networking
     # Add your frontend URLs here
     # "https://yourfrontend.com",
 ]
+
+# Allow credentials (cookies, authorization headers)
+CORS_ALLOW_CREDENTIALS = True
 
 # Alternative: Allow all origins (NOT recommended for production)
 # CORS_ALLOW_ALL_ORIGINS = True
